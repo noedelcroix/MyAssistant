@@ -45,11 +45,30 @@ let traiterRequest = () => {
     if (request === "") { return false; }
     sendMessage(request, "request");
     $("#request").val("");
+    var date = new Date();
 
     //====================REQUESTS====================\\
-    if (request.includes("ouvrir")) {
-        sendMessage("ouverture du programme", "response");
-    } else if (request.includes("*")) {
+    if (request.includes("ouv")) {
+        if(request.includes("chrome")){
+            sendMessage("ouverture de chrome", "response");
+        }else if(request.includes("spotify")){
+            sendMessage("ouverture de spotify", "response");
+        }
+    }else if(request.toLowerCase().includes("salut") || request.toLowerCase().includes("bonjour") || request.toLowerCase().includes("bonsoir")){
+        var heure = parseInt(date.getHours());
+        console.log(heure)
+        if(0 <= heure && heure < 4){
+            sendMessage("Bonne nuit ! il est temps d'aller vous coucher", "response");
+        }else if(4 <= heure && heure < 12){
+            sendMessage("Bonjour ! passez une très bonne matinée", "response");
+        }else if(12 <= heure && heure < 18){
+            sendMessage("Bonne après-midi ! passez une très bonne fin de journée", "response");
+        }else if(18 <= heure && heure <= 23){
+            sendMessage("Bonne soirée !", "response");
+        }
+    }else if(request.includes("heure")){
+        sendMessage("Il est "+date.getHours()+":"+date.getMinutes());        
+    }else if (request.includes("*")) {
         //grossiers mots\\
         sendMessage("Soyez polis s'il vous plait", "response");
     } else if (request.includes("di")) {
@@ -71,6 +90,4 @@ $(document).ready(() => {
             recognizer(document.getElementById("request"));
         });
     });
-
-
 });

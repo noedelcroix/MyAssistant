@@ -3,10 +3,11 @@ let sendMessage = (message, from) => {
         $("body").append("<div class=\"flex request\"><div class=\"data request\">" + message + "</div></div>");
     } else {
         $("body").append("<div class=\"flex response\"><div class=\"data response\">" + message + "</div></div>");
+        speech(message);
     }
 }
 
-let recognizer = () => {
+let recognizer = (object) => {
     if (window.hasOwnProperty('webkitSpeechRecognition')) {
         var recognition = new webkitSpeechRecognition();
 
@@ -14,9 +15,10 @@ let recognizer = () => {
         recognition.start();
 
         recognition.onresult = function (e) {
-            document.getElementById('request').value
+            object.value
                 = e.results[0][0].transcript;
             recognition.stop();
+            traiterRequest();
         };
 
         recognition.onerror = function (e) {
@@ -26,8 +28,8 @@ let recognizer = () => {
     }
 }
 
-let speech = ()=>{
-    var msg = new SpeechSynthesisUtterance('Hello World 94');
+let speech = (text)=>{
+    var msg = new SpeechSynthesisUtterance(text);
     msg.lang = "fr-BE";
     window.speechSynthesis.speak(msg);
 }
@@ -43,21 +45,20 @@ let traiterRequest = () => {
         sendMessage("ouvrir", "response");
     } else if (request.indexOf("dire") != -1) {
         sendMessage("dire", "response");
+    }else{
+        sendMessage("Je n'ai pas compris votre demande");
     }
 }
 
 $(document).ready(() => {
-    $("#submit").on("click", () => {
-        traiterRequest();
+    $("#mic").one("click", () => {
+        speech("Salut ! Que puis-je faire pour t'aider ?")
+        recognizer(document.getElementById("request"));
+        $("#mic").on("click", () => {
+        speech("Besoin d'autre chose ?")
+        recognizer(document.getElementById("request"));
+    });
     });
 
-    $(document).on("keydown", (event) => {
-        if (event.key === "Enter") {
-            traiterRequest();
-        }
-    });
-
-    $("#mic").on("click", () => {
-        recognizer();
-    });
+    
 });

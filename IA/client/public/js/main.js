@@ -50,7 +50,12 @@ let traiterRequest = () => {
     if (request.includes("ouvrir")) {
         sendMessage("ouverture du programme", "response");
     } else if (request.includes("di")) {
-        sendMessage("lol", "response");
+        //==="Dis quelque chose"===\\
+        sayResponse = request.split("di").slice(1).join("di").split(" ").slice(1).join(" ")
+        sendMessage(sayResponse, "response");
+    }else if(request.includes("*")){
+        //grossiers mots\\
+        sendMessage("Soyez polis s'il vous plait", "response");
     }else{
         sendMessage("Je n'ai pas compris votre demande");
     }

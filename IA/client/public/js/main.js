@@ -9,8 +9,8 @@ let sendMessage = (message, from) => {
     scrollBottom();
 }
 
-let scrollBottom = (object)=>{
-    window.scrollTo(0,document.body.scrollHeight);
+let scrollBottom = (object) => {
+    window.scrollTo(0, document.body.scrollHeight);
 }
 
 let recognizer = (object) => {
@@ -34,7 +34,7 @@ let recognizer = (object) => {
     }
 }
 
-let speech = (text)=>{
+let speech = (text) => {
     var msg = new SpeechSynthesisUtterance(text);
     msg.lang = "fr-BE";
     window.speechSynthesis.speak(msg);
@@ -46,20 +46,20 @@ let traiterRequest = () => {
     sendMessage(request, "request");
     $("#request").val("");
 
-//====================REQUESTS====================\\
+    //====================REQUESTS====================\\
     if (request.includes("ouvrir")) {
         sendMessage("ouverture du programme", "response");
+    } else if (request.includes("*")) {
+        //grossiers mots\\
+        sendMessage("Soyez polis s'il vous plait", "response");
     } else if (request.includes("di")) {
         //==="Dis quelque chose"===\\
         sayResponse = request.split("di").slice(1).join("di").split(" ").slice(1).join(" ")
         sendMessage(sayResponse, "response");
-    }else if(request.includes("*")){
-        //grossiers mots\\
-        sendMessage("Soyez polis s'il vous plait", "response");
-    }else{
+    } else {
         sendMessage("Je n'ai pas compris votre demande");
     }
-//================================================\\
+    //================================================\\
 }
 
 $(document).ready(() => {
@@ -67,10 +67,10 @@ $(document).ready(() => {
         speech("Salut ! Que puis-je faire pour t'aider ?")
         recognizer(document.getElementById("request"));
         $("#mic").on("click", () => {
-        speech("Besoin d'autre chose ?")
-        recognizer(document.getElementById("request"));
-    });
+            speech("Besoin d'autre chose ?")
+            recognizer(document.getElementById("request"));
+        });
     });
 
-    
+
 });

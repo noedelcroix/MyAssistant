@@ -1,10 +1,16 @@
 let sendMessage = (message, from) => {
     if (from == "request") {
-        $("body").append("<div class=\"flex request\"><div class=\"data request\">" + message + "</div></div>");
+        $("#content").append("<div class=\"flex request\"><div class=\"data request\">" + message + "</div></div>");
     } else {
-        $("body").append("<div class=\"flex response\"><div class=\"data response\">" + message + "</div></div>");
+        $("#content").append("<div class=\"flex response\"><div class=\"data response\">" + message + "</div></div>");
         speech(message);
     }
+
+    scrollBottom();
+}
+
+let scrollBottom = (object)=>{
+    window.scrollTo(0,document.body.scrollHeight);
 }
 
 let recognizer = (object) => {

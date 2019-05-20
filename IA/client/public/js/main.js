@@ -44,16 +44,17 @@ let traiterRequest = () => {
     let request = $("#request").val();
     if (request === "") { return false; }
     sendMessage(request, "request");
-    request = request.split(" ");
     $("#request").val("");
 
-    if (request.indexOf("ouvrir") != -1) {
-        sendMessage("ouvrir", "response");
-    } else if (request.indexOf("dire") != -1) {
-        sendMessage("dire", "response");
+//====================REQUESTS====================\\
+    if (request.includes("ouvrir")) {
+        sendMessage("ouverture du programme", "response");
+    } else if (request.includes("di")) {
+        sendMessage("lol", "response");
     }else{
         sendMessage("Je n'ai pas compris votre demande");
     }
+//================================================\\
 }
 
 $(document).ready(() => {
